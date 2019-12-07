@@ -2,19 +2,23 @@ package Services;
 
 import Model.Person;
 import Repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PersonServices {
 
+    @Autowired
     private PersonRepository repository;
 
-    public PersonServices(PersonRepository repository){
-        this.repository = repository;
-    }
+//    public PersonServices(PersonRepository repository){
+//        this.repository = repository;
+//    }
 
-    public Iterable<Person> getAll(){
-        return repository.findAll();
+    public List<Person> getAll(){
+        return (List<Person>) repository.findAll();
     }
 
     public Person getPerson(Long id){

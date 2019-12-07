@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Person;
 import Services.PersonServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,14 +12,15 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 public class PersonController {
 
+    @Autowired
     private PersonServices service;
 
-    public PersonController(PersonServices service){
-        this.service = service;
-    }
+//    public PersonController(PersonServices service){
+//        this.service = service;
+//    }
 
     @PostMapping("/person")
     public ResponseEntity<Person> create(@Valid @RequestBody Person person){
@@ -30,13 +32,13 @@ public class PersonController {
         return new ResponseEntity<>(service.getPerson(id), HttpStatus.OK);
     }
 
-    @PutMapping("/person/update")
-    public ResponseEntity<Person> updatePerson(Long id, Person person){
+    @PutMapping("/person/{id}")
+    public ResponseEntity<Person> updatePerson(@PathVariable Long id, @Valid @RequestBody Person person){
         return new ResponseEntity<>(service.update(id, person), HttpStatus.OK);
     }
 
     @GetMapping("/person")
-    public ResponseEntity<Iterable<Person>> getPersonList(){
+    public ResponseEntity<List<Person>> getPersonList(){
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
